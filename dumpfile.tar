@@ -1,0 +1,151 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.15 (Debian 13.15-1.pgdg120+1)
+-- Dumped by pg_dump version 13.15 (Debian 13.15-1.pgdg120+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: lcl_pokemon; Type: TABLE; Schema: public; Owner: user
+--
+
+CREATE TABLE public.lcl_pokemon (
+    pokemon_id numeric NOT NULL,
+    name character varying,
+    gender character varying
+);
+
+
+ALTER TABLE public.lcl_pokemon OWNER TO "user";
+
+--
+-- Name: lcl_pokemon_ability_type; Type: TABLE; Schema: public; Owner: user
+--
+
+CREATE TABLE public.lcl_pokemon_ability_type (
+    ability_type_id numeric NOT NULL,
+    name character varying,
+    ability_id numeric NOT NULL
+);
+
+
+ALTER TABLE public.lcl_pokemon_ability_type OWNER TO "user";
+
+--
+-- Name: lcl_pokemon_entity; Type: TABLE; Schema: public; Owner: user
+--
+
+CREATE TABLE public.lcl_pokemon_entity (
+    pokemon_id numeric NOT NULL,
+    name character varying,
+    gender character varying
+);
+
+
+ALTER TABLE public.lcl_pokemon_entity OWNER TO "user";
+
+--
+-- Name: lcl_pokemon_type; Type: TABLE; Schema: public; Owner: user
+--
+
+CREATE TABLE public.lcl_pokemon_type (
+    type_id numeric NOT NULL,
+    name character varying,
+    pokemon_id numeric
+);
+
+
+ALTER TABLE public.lcl_pokemon_type OWNER TO "user";
+
+--
+-- Data for Name: lcl_pokemon; Type: TABLE DATA; Schema: public; Owner: user
+--
+
+COPY public.lcl_pokemon (pokemon_id, name, gender) FROM stdin;
+\.
+
+
+--
+-- Data for Name: lcl_pokemon_ability_type; Type: TABLE DATA; Schema: public; Owner: user
+--
+
+COPY public.lcl_pokemon_ability_type (ability_type_id, name, ability_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: lcl_pokemon_entity; Type: TABLE DATA; Schema: public; Owner: user
+--
+
+COPY public.lcl_pokemon_entity (pokemon_id, name, gender) FROM stdin;
+\.
+
+
+--
+-- Data for Name: lcl_pokemon_type; Type: TABLE DATA; Schema: public; Owner: user
+--
+
+COPY public.lcl_pokemon_type (type_id, name, pokemon_id) FROM stdin;
+1	fire	1
+\.
+
+
+--
+-- Name: lcl_pokemon_ability_type lcl_pokemon_ability_type_pk; Type: CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon_ability_type
+    ADD CONSTRAINT lcl_pokemon_ability_type_pk PRIMARY KEY (ability_type_id);
+
+
+--
+-- Name: lcl_pokemon_ability_type lcl_pokemon_ability_type_unique; Type: CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon_ability_type
+    ADD CONSTRAINT lcl_pokemon_ability_type_unique UNIQUE (ability_id);
+
+
+--
+-- Name: lcl_pokemon_entity lcl_pokemon_entity_pk; Type: CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon_entity
+    ADD CONSTRAINT lcl_pokemon_entity_pk PRIMARY KEY (pokemon_id);
+
+
+--
+-- Name: lcl_pokemon lcl_pokemon_pkey; Type: CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon
+    ADD CONSTRAINT lcl_pokemon_pkey PRIMARY KEY (pokemon_id);
+
+
+--
+-- Name: lcl_pokemon_type lcl_pokemon_type_pk; Type: CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon_type
+    ADD CONSTRAINT lcl_pokemon_type_pk PRIMARY KEY (type_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
