@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Determine the directory of the script
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
 CONTAINER_NAME=postgres-db
 LOCAL_DUMP_FILE_PATH=docker/dbDump/dumpfile.tar
 CONTAINER_DUMP_FILE_PATH=/var/lib/dumpfile.tar
