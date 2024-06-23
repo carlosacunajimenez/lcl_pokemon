@@ -1,1 +1,1 @@
-Introduction to the project
+Introduction to the project.
