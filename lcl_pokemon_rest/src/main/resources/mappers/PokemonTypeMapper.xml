@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lcl.pokemon.repository.IPokemonType">
+
+    <resultMap id="pokemonTypeResultMap" type="lcl.pokemon.domain.PokemonType">
+        <id property="typeId" column="type_id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <select id="getPokemonTypeById" resultMap="pokemonTypeResultMap">
+        SELECT *
+        FROM public.lcl_pokemon_type
+        where lcl_pokemon_type.type_id = #{typeId}
+    </select>
+
+    <!-- Add more SQL queries as needed -->
+
+</mapper>
