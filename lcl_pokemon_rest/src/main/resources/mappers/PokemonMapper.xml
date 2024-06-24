@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lcl.pokemon.repository.IPokemon">
+
+    <resultMap id="pokemonResultMap" type="lcl.pokemon.domain.Pokemon">
+        <id property="pokemonId" column="pokemon_id"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+    </resultMap>
+
+    <select id="getPokemonById" resultMap="pokemonResultMap">
+        SELECT *
+        FROM public.lcl_pokemon
+        where lcl_pokemon.pokemon_id = #{pokemonId}
+    </select>
+
+</mapper>

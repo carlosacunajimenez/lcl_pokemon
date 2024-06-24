@@ -29,9 +29,6 @@ public class PokemonTypeRepositoryIntegrationTest {
             .typeId(TEST_POKEMON_TYPE_ID)
             .name(TEST_POKEMON_TYPE_NAME).build();
 
-    PokemonType emptyPokemonType = PokemonType.builder()
-            .build();
-
     @Autowired
     private PokemonTypeRepository repository;
 
