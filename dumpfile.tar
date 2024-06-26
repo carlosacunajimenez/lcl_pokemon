@@ -27,11 +27,27 @@ SET default_table_access_method = heap;
 CREATE TABLE public.lcl_pokemon (
     pokemon_id numeric NOT NULL,
     name character varying,
-    gender character varying
+    gender character varying,
+    ability_id numeric,
+    ability_type_id numeric
 );
 
 
 ALTER TABLE public.lcl_pokemon OWNER TO "user";
+
+--
+-- Name: lcl_pokemon_ability; Type: TABLE; Schema: public; Owner: user
+--
+
+CREATE TABLE public.lcl_pokemon_ability (
+    ability_id numeric NOT NULL,
+    name character varying,
+    pokemon_id numeric,
+    ability_type_id numeric
+);
+
+
+ALTER TABLE public.lcl_pokemon_ability OWNER TO "user";
 
 --
 -- Name: lcl_pokemon_ability_type; Type: TABLE; Schema: public; Owner: user
@@ -39,25 +55,11 @@ ALTER TABLE public.lcl_pokemon OWNER TO "user";
 
 CREATE TABLE public.lcl_pokemon_ability_type (
     ability_type_id numeric NOT NULL,
-    name character varying,
-    ability_id numeric NOT NULL
+    name character varying
 );
 
 
 ALTER TABLE public.lcl_pokemon_ability_type OWNER TO "user";
-
---
--- Name: lcl_pokemon_entity; Type: TABLE; Schema: public; Owner: user
---
-
-CREATE TABLE public.lcl_pokemon_entity (
-    pokemon_id numeric NOT NULL,
-    name character varying,
-    gender character varying
-);
-
-
-ALTER TABLE public.lcl_pokemon_entity OWNER TO "user";
 
 --
 -- Name: lcl_pokemon_type; Type: TABLE; Schema: public; Owner: user
@@ -76,7 +78,25 @@ ALTER TABLE public.lcl_pokemon_type OWNER TO "user";
 -- Data for Name: lcl_pokemon; Type: TABLE DATA; Schema: public; Owner: user
 --
 
-COPY public.lcl_pokemon (pokemon_id, name, gender) FROM stdin;
+COPY public.lcl_pokemon (pokemon_id, name, gender, ability_id, ability_type_id) FROM stdin;
+1	Charizard	M	1	1
+2	Bulbasur	H	2	1
+3	Squirtle	M	3	1
+4	Pidgey	H	4	1
+5	Ivisaur	H	2	1
+\.
+
+
+--
+-- Data for Name: lcl_pokemon_ability; Type: TABLE DATA; Schema: public; Owner: user
+--
+
+COPY public.lcl_pokemon_ability (ability_id, name, pokemon_id, ability_type_id) FROM stdin;
+2	Overgrow	2	1
+1	Blaze	1	1
+3	Torrent	3	1
+4	keen eye	4	1
+5	Tangled	4	1
 \.
 
 
@@ -84,15 +104,9 @@ COPY public.lcl_pokemon (pokemon_id, name, gender) FROM stdin;
 -- Data for Name: lcl_pokemon_ability_type; Type: TABLE DATA; Schema: public; Owner: user
 --
 
-COPY public.lcl_pokemon_ability_type (ability_type_id, name, ability_id) FROM stdin;
-\.
-
-
---
--- Data for Name: lcl_pokemon_entity; Type: TABLE DATA; Schema: public; Owner: user
---
-
-COPY public.lcl_pokemon_entity (pokemon_id, name, gender) FROM stdin;
+COPY public.lcl_pokemon_ability_type (ability_type_id, name) FROM stdin;
+1	Ability
+2	Hidden
 \.
 
 
@@ -101,8 +115,20 @@ COPY public.lcl_pokemon_entity (pokemon_id, name, gender) FROM stdin;
 --
 
 COPY public.lcl_pokemon_type (type_id, name, pokemon_id) FROM stdin;
-1	fire	1
+1	Fire	1
+2	Grass	2
+3	Poison	2
+4	Water	3
+5	Normal	4
 \.
+
+
+--
+-- Name: lcl_pokemon_ability lcl_pokemon_ability_pk; Type: CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon_ability
+    ADD CONSTRAINT lcl_pokemon_ability_pk PRIMARY KEY (ability_id);
 
 
 --
@@ -114,27 +140,11 @@ ALTER TABLE ONLY public.lcl_pokemon_ability_type
 
 
 --
--- Name: lcl_pokemon_ability_type lcl_pokemon_ability_type_unique; Type: CONSTRAINT; Schema: public; Owner: user
---
-
-ALTER TABLE ONLY public.lcl_pokemon_ability_type
-    ADD CONSTRAINT lcl_pokemon_ability_type_unique UNIQUE (ability_id);
-
-
---
--- Name: lcl_pokemon_entity lcl_pokemon_entity_pk; Type: CONSTRAINT; Schema: public; Owner: user
---
-
-ALTER TABLE ONLY public.lcl_pokemon_entity
-    ADD CONSTRAINT lcl_pokemon_entity_pk PRIMARY KEY (pokemon_id);
-
-
---
--- Name: lcl_pokemon lcl_pokemon_pkey; Type: CONSTRAINT; Schema: public; Owner: user
+-- Name: lcl_pokemon lcl_pokemon_pk; Type: CONSTRAINT; Schema: public; Owner: user
 --
 
 ALTER TABLE ONLY public.lcl_pokemon
-    ADD CONSTRAINT lcl_pokemon_pkey PRIMARY KEY (pokemon_id);
+    ADD CONSTRAINT lcl_pokemon_pk PRIMARY KEY (pokemon_id);
 
 
 --
@@ -143,6 +153,46 @@ ALTER TABLE ONLY public.lcl_pokemon
 
 ALTER TABLE ONLY public.lcl_pokemon_type
     ADD CONSTRAINT lcl_pokemon_type_pk PRIMARY KEY (type_id);
+
+
+--
+-- Name: lcl_pokemon_ability lcl_pokemon_ability_lcl_pokemon_ability_type_fk; Type: FK CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon_ability
+    ADD CONSTRAINT lcl_pokemon_ability_lcl_pokemon_ability_type_fk FOREIGN KEY (ability_type_id) REFERENCES public.lcl_pokemon_ability_type(ability_type_id);
+
+
+--
+-- Name: lcl_pokemon_ability lcl_pokemon_ability_lcl_pokemon_fk; Type: FK CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon_ability
+    ADD CONSTRAINT lcl_pokemon_ability_lcl_pokemon_fk FOREIGN KEY (pokemon_id) REFERENCES public.lcl_pokemon(pokemon_id);
+
+
+--
+-- Name: lcl_pokemon lcl_pokemon_lcl_pokemon_ability_fk; Type: FK CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon
+    ADD CONSTRAINT lcl_pokemon_lcl_pokemon_ability_fk FOREIGN KEY (ability_id) REFERENCES public.lcl_pokemon_ability(ability_id);
+
+
+--
+-- Name: lcl_pokemon lcl_pokemon_lcl_pokemon_ability_type_fk; Type: FK CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon
+    ADD CONSTRAINT lcl_pokemon_lcl_pokemon_ability_type_fk FOREIGN KEY (ability_type_id) REFERENCES public.lcl_pokemon_ability_type(ability_type_id);
+
+
+--
+-- Name: lcl_pokemon_type lcl_pokemon_type_lcl_pokemon_fk; Type: FK CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.lcl_pokemon_type
+    ADD CONSTRAINT lcl_pokemon_type_lcl_pokemon_fk FOREIGN KEY (pokemon_id) REFERENCES public.lcl_pokemon(pokemon_id);
 
 
 --
